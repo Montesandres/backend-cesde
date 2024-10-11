@@ -23,9 +23,9 @@ export class ProfessorsService {
 
   async create(createProfessorDto: CreateProfessorDto) {
     try {
-      const { documentNumber, name, email } = createProfessorDto;
+      const { document, name, email } = createProfessorDto;
       const newProfessor = this.professorRepository.create({
-        document: documentNumber,
+        document,
         name,
         email,
       });
@@ -62,7 +62,7 @@ export class ProfessorsService {
       const { name, email } = updateProfessorDto;
       const professorToUpdate = await this.professorRepository.preload({
         id,
-        name,
+        name, 
         email
       });
 
@@ -79,7 +79,7 @@ export class ProfessorsService {
   async remove(id: number) {
     try {
       const professorToDelete = await this.findOne(id);
-      await this.professorRepository.softDelete(id);
+      await this.professorRepository.delete(id);
       return professorToDelete;
     } catch (error) {
       this.handleDbError(error, this.logger);
@@ -89,7 +89,10 @@ export class ProfessorsService {
   
 
   handleDbError(error: any, logger: Logger) {
+    console.log(error.code)
     switch (error.code) {
+      case 'ER_ROW_IS_REFERENCED_2':
+        throw new BadRequestException('El profesor tiene Materias asignadas, no se puede eliminar');
       case '23505':
         throw new BadRequestException(error.detail.replace('Key', ''));
       case 'error-001':

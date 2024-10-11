@@ -9,7 +9,7 @@ export class CreateSubjectDto {
     description: string;
   
    
-    @IsInt()
+    @IsNumber()
     duration: number;
   
     @IsNumber()
@@ -18,6 +18,6 @@ export class CreateSubjectDto {
     @IsDateString()
     startDate: Date;
   
-    @IsInt()
+    @IsNumber()
     professorId:number;
 }

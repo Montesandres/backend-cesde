@@ -21,6 +21,6 @@ export class Subject {
   @Column('date')
   startDate: Date;
 
-  @ManyToOne(() => Professor, (professor) => professor.subjects)
+  @ManyToOne(() => Professor, (professor) => professor.subjects,{eager:true})
   professor: Professor;
 }

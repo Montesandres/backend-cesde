@@ -29,6 +29,7 @@ export class ProfessorsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    console.log(id)
     return this.professorsService.remove(+id);
   }
 }
